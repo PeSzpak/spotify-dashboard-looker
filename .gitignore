@@ -1,0 +1,4 @@
+dados/brutos/
+*.db
+__pycache__/
+.DS_Store
