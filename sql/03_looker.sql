@@ -14,7 +14,7 @@ SELECT c.data,
        CASE c.pais_cod WHEN 'BR' THEN 'Brasil' ELSE 'Global' END       AS chart,
        c.posicao,
        CASE WHEN c.posicao = 1 THEN '#1' WHEN c.posicao <= 10 THEN 'Top 2-10' ELSE 'Top 11-50' END AS faixa,
-       m.musica, m.artistas, m.artista_principal,
+       c.musica_id, m.musica, m.artistas, m.artista_principal,
        CASE m.brasileira WHEN 1 THEN 'Brasileira' ELSE 'Estrangeira' END AS origem_musica,
        m.brasileira,
        m.explicita,
@@ -37,7 +37,7 @@ CREATE VIEW looker_artistas AS
 SELECT c.data, substr(c.data, 1, 7) AS mes, a.artista,
        CASE a.origem_cod WHEN 'BR' THEN 'Brasileiro' ELSE 'Estrangeiro' END AS origem_artista,
        CASE ma.ordem WHEN 1 THEN 'Principal' ELSE 'Participação' END        AS papel,
-       m.musica, c.posicao,
+       c.musica_id, m.musica, c.posicao,
        CASE WHEN c.posicao <= 10 THEN 1 ELSE 0 END AS no_top10
 FROM chart_diario c
 JOIN musica_artista ma USING (musica_id)
@@ -109,6 +109,7 @@ SELECT p.pais_cod, p.pais, p.regiao, p.renda, p.populacao, p.internet,
        ROUND(b.pct_musica_brasileira, 4) AS pct_musica_brasileira,
        b.musicas_brasileiras,
        ROUND(t.pct_top5_artistas, 4)     AS pct_top5_artistas,
+       RANK() OVER (ORDER BY t.pct_top5_artistas DESC) AS ranking_concentracao,  -- 1 = mais concentrado
        ROUND(b.pct_explicitas, 4)        AS pct_explicitas,
        ROUND(b.pct_feat, 4)              AS pct_feat,
        ROUND(b.duracao_media, 2)         AS duracao_media,
@@ -119,7 +120,22 @@ FROM base b
 JOIN paises p USING (pais_cod)
 JOIN top5 t USING (pais_cod);
 
--- 5. Música brasileira fora do Brasil: país x música x mês (tela 4, mapa e tabela)
+-- 5. Uma linha por artista do Top 50 Brasil: quantas músicas emplacou (tela 2, "artistas de um hit só")
+DROP VIEW IF EXISTS looker_artistas_resumo;
+CREATE VIEW looker_artistas_resumo AS
+SELECT a.artista,
+       CASE a.origem_cod WHEN 'BR' THEN 'Brasileiro' ELSE 'Estrangeiro' END AS origem_artista,
+       COUNT(DISTINCT c.musica_id)                                         AS musicas,
+       COUNT(*)                                                            AS dias_no_chart,
+       SUM(ma.ordem > 1)                                                   AS dias_como_feat,
+       CASE WHEN COUNT(DISTINCT c.musica_id) = 1 THEN 1 ELSE 0 END          AS um_hit_so
+FROM chart_diario c
+JOIN musica_artista ma USING (musica_id)
+JOIN artistas a USING (artista_id)
+WHERE c.pais_cod = 'BR'
+GROUP BY a.artista;
+
+-- 6. Música brasileira fora do Brasil: país x música x mês (tela 4, mapa e tabela)
 DROP VIEW IF EXISTS looker_exportacao;
 CREATE VIEW looker_exportacao AS
 SELECT p.pais_cod, p.pais, p.regiao,

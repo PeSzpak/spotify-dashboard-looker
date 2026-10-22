@@ -26,7 +26,7 @@ def main():
             for linha in cur:
                 w.writerow(linha)
                 n += 1
-        print(f"  {arq.name:16} {n:>7,} linhas  {arq.stat().st_size / 1e6:5.1f} MB")
+        print(f"  {arq.name:20} {n:>7,} linhas  {arq.stat().st_size / 1e6:5.1f} MB")
 
 
 if __name__ == "__main__":
