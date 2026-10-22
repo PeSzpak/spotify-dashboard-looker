@@ -258,3 +258,20 @@ Gerado por `python3 kpis.py` a partir de `sql/02_kpis.sql`.
 | 2. 85% a 95% | 31 | 42,3 | AR,BE,BY,CA,CL,CR,CZ,DE,DO,EE,FI,FR,GR,HU,IL,IT,JP,KZ,LT,LV,MA,NZ,PL,PT,RO,SG,SK,TH,TR,US,UY |
 | 3. 70% a 85% | 14 | 31,3 | BG,BO,BR,CO,EC,EG,MX,PE,PH,PY,UA,VE,VN,ZA |
 | 4. menos de 70% | 9 | 28,7 | GT,HN,ID,IN,NG,NI,PA,PK,SV |
+
+## KPI 15 · Sazonalidade
+
+**O Natal invade o chart? % do Top 50 com música natalina de 15 a 25/12/2024**
+
+| pais | pct_natalinas | musicas_natalinas | posicao_entre_73 |
+|---|---|---|---|
+| Áustria | 53,3 | 37 | 1 |
+| Irlanda | 52 | 33 | 2 |
+| Reino Unido | 51,8 | 32 | 3 |
+| Estados Unidos | 48,9 | 35 | 6 |
+| Alemanha | 47,8 | 31 | 7 |
+| Global | 37,5 | 31 | 12 |
+| Portugal | 20,2 | 30 | 25 |
+| México | 0,9 | 5 | 55 |
+| Brasil | 0,5 | 3 | 58 |
+| Argentina | 0,2 | 1 | 63 |

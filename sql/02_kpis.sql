@@ -208,3 +208,26 @@ FROM renovacao r JOIN paises p USING (pais_cod)
 WHERE p.internet IS NOT NULL
 GROUP BY 1
 ORDER BY 1;
+
+-- @kpi 15 | Sazonalidade | O Natal invade o chart? % do Top 50 com música natalina de 15 a 25/12/2024
+-- natalina = título com palavra de Natal (Christmas, Navidad, Natal, Jingle, Santa, Snow…)
+WITH periodo AS (
+    SELECT c.pais_cod, m.musica,
+           (m.musica LIKE '%Christmas%' OR m.musica LIKE '%Navidad%' OR m.musica LIKE '%Natal%'
+            OR m.musica LIKE '%Jingle%' OR m.musica LIKE '%Santa %' OR m.musica LIKE '%Snow%'
+            OR m.musica LIKE '%Wonderful Time%' OR m.musica LIKE '%Weihnacht%' OR m.musica LIKE '%Noël%') AS natalina
+    FROM chart_diario c JOIN musicas m USING (musica_id)
+    WHERE c.data BETWEEN '2024-12-15' AND '2024-12-25'
+),
+ranking AS (
+    SELECT p.pais,
+           ROUND(100.0 * AVG(natalina), 1)                    AS pct_natalinas,
+           COUNT(DISTINCT CASE WHEN natalina THEN musica END)  AS musicas_natalinas,
+           RANK() OVER (ORDER BY AVG(natalina) DESC)           AS posicao_entre_73
+    FROM periodo JOIN paises p USING (pais_cod)
+    GROUP BY p.pais
+)
+SELECT * FROM ranking
+WHERE pais IN ('Brasil', 'Global', 'Estados Unidos', 'Alemanha', 'Reino Unido', 'Portugal', 'México', 'Argentina')
+   OR posicao_entre_73 <= 3
+ORDER BY pct_natalinas DESC;
