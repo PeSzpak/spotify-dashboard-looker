@@ -106,6 +106,12 @@ Quanto espaço existe no Top 50 Brasil e quanto ele se renova? Seis indicadores 
 
 ![Panorama](docs/telas/tela_1_panorama.png)
 
+### Tela 2 · Quem domina
+
+Quem são os donos do chart e se há espaço para artista novo. Concentração (fatia dos 5 maiores artistas e posição entre os 72 países), artistas de um hit só, Top 10 artistas separando dias como principal e como feat, e as músicas que mais dias passaram no #1.
+
+![Quem domina](docs/telas/tela_2_quem_domina.png)
+
 ## Limitações
 
 - **Top 50, não streams.** A base traz a posição, não o número de reproduções. Os KPIs medem *presença no chart* (dias × posições), não audiência.
