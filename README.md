@@ -118,6 +118,12 @@ Que tipo de música chega e fica no topo. Duração média, % explícitas e % co
 
 ![A fórmula do hit](docs/telas/tela_3_formula_do_hit.png)
 
+### Tela 4 · Brasil no mundo
+
+Vale a pena exportar? Portugal tem 31% de música brasileira no Top 50; em nenhum outro país passa de 2,3%, embora 58 de 71 países já tenham tocado ao menos uma. O mapa mostra onde a música brasileira toca, a tabela as músicas que mais viajaram (todas com feat estrangeiro no topo) e a dispersão cruza a internet do Banco Mundial com a renovação do chart.
+
+![Brasil no mundo](docs/telas/tela_4_brasil_no_mundo.png)
+
 ## Limitações
 
 - **Top 50, não streams.** A base traz a posição, não o número de reproduções. Os KPIs medem *presença no chart* (dias × posições), não audiência.
