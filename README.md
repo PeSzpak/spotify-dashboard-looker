@@ -124,6 +124,12 @@ Vale a pena exportar? Portugal tem 31% de música brasileira no Top 50; em nenhu
 
 ![Brasil no mundo](docs/telas/tela_4_brasil_no_mundo.png)
 
+### Tela 5 · Conclusões
+
+Os seis insights que respondem às perguntas da gravadora e as quatro recomendações que saem deles.
+
+![Conclusões](docs/telas/tela_5_conclusoes.png)
+
 ## Limitações
 
 - **Top 50, não streams.** A base traz a posição, não o número de reproduções. Os KPIs medem *presença no chart* (dias × posições), não audiência.
