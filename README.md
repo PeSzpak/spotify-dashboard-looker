@@ -112,6 +112,12 @@ Quem são os donos do chart e se há espaço para artista novo. Concentração (
 
 ![Quem domina](docs/telas/tela_2_quem_domina.png)
 
+### Tela 3 · A fórmula do hit
+
+Que tipo de música chega e fica no topo. Duração média, % explícitas e % com mais de 1 ano; o formato do sucesso no Brasil × Global (feat, explícita, duração, idade); e a valência (alegria) por mês, que sobe no verão brasileiro e cai no Global com as músicas de Natal.
+
+![A fórmula do hit](docs/telas/tela_3_formula_do_hit.png)
+
 ## Limitações
 
 - **Top 50, não streams.** A base traz a posição, não o número de reproduções. Os KPIs medem *presença no chart* (dias × posições), não audiência.
