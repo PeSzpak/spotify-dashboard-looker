@@ -100,6 +100,12 @@ Os KPIs cobrem **volume** (1, 2), **eficiência** com médias e percentuais (3, 
 
 Feito no Looker Studio com os CSVs de `dados/looker/`, em 5 telas: **Panorama**, **Quem domina**, **A fórmula do hit**, **Brasil no mundo** e **Conclusões**.
 
+### Tela 1 · Panorama
+
+Quanto espaço existe no Top 50 Brasil e quanto ele se renova? Seis indicadores de volume e eficiência, estreias por mês (Brasil × Global) e o Top 10 do último dia.
+
+![Panorama](docs/telas/tela_1_panorama.png)
+
 ## Limitações
 
 - **Top 50, não streams.** A base traz a posição, não o número de reproduções. Os KPIs medem *presença no chart* (dias × posições), não audiência.
