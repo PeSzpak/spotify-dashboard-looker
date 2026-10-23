@@ -2,8 +2,6 @@
 
 Trabalho de **Banco de Dados II (Faculdade Senac PR)**: um Datathon em que montamos um dashboard com KPIs estratégicos no Looker Studio.
 
-![Panorama](docs/telas/tela_1.png)
-
 ## O problema
 
 Uma **gravadora independente brasileira** vai decidir onde investir em 2025. Ela precisa responder:
@@ -29,14 +27,13 @@ baixar_dados.sh ──► dados/brutos/          CSV de 390 MB + JSON do Banco M
 tratar.py       ──► dados/spotify.db       SQLite em modelo estrela (sql/01_schema.sql)
 kpis.py         ──► docs/resultados_kpis.md   15 KPIs em SQL (sql/02_kpis.sql)
 exportar.py     ──► dados/looker/*.csv     views para o Looker (sql/03_looker.sql)
-layout/telas.py ──► docs/telas/*.png       mockups das 5 telas com os dados reais
 ```
 
 ```sh
-./baixar_dados.sh && python3 tratar.py && python3 kpis.py && python3 exportar.py && python3 layout/telas.py
+./baixar_dados.sh && python3 tratar.py && python3 kpis.py && python3 exportar.py
 ```
 
-Requer Python 3 com pandas e Google Chrome (para os prints das telas). O SQLite já vem com o Python.
+Requer Python 3 com pandas. O SQLite já vem com o Python.
 
 ### Modelo de dados
 
@@ -101,13 +98,7 @@ Os KPIs cobrem **volume** (1, 2), **eficiência** com médias e percentuais (3, 
 
 ## O dashboard
 
-São 5 telas, e o passo a passo para montá-las no Looker Studio está em [`docs/guia_looker.md`](docs/guia_looker.md).
-
-| | |
-|---|---|
-| ![Panorama](docs/telas/tela_1.png) | ![Quem domina](docs/telas/tela_2.png) |
-| ![A fórmula do hit](docs/telas/tela_3.png) | ![Brasil no mundo](docs/telas/tela_4.png) |
-| ![Conclusões](docs/telas/tela_5.png) | |
+Feito no Looker Studio com os CSVs de `dados/looker/`, em 5 telas: **Panorama**, **Quem domina**, **A fórmula do hit**, **Brasil no mundo** e **Conclusões**.
 
 ## Limitações
 
