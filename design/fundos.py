@@ -63,7 +63,7 @@ LAYOUT = {
             ("ARTISTAS DE UM HIT SÓ", "emplacaram uma única música no período"),
         ]) + [
             painel(40, 260, 740, 420, "Top 10 artistas: dias no Top 50",
-                   "Verde = artista principal · azul = participação (feat)"),
+                   "Verde = artista principal · cinza = participação (feat)"),
             painel(800, 260, 420, 420, "Quem dominou o #1?", "Dias no #1 e no Top 50 por música"),
         ],
     },
