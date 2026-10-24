@@ -3,3 +3,5 @@ dados/brutos/
 __pycache__/
 .DS_Store
 layout/
+.audit/
+design/fundos/_html/
