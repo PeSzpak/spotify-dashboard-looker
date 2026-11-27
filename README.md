@@ -22,11 +22,15 @@ As duas bases se ligam pelo **código ISO do país** (`BR`, `US`, `PT`…).
 
 ## Pipeline
 
-```
-baixar_dados.sh ──► dados/brutos/          CSV de 390 MB + JSON do Banco Mundial
-tratar.py       ──► dados/spotify.db       SQLite em modelo estrela (sql/01_schema.sql)
-kpis.py         ──► docs/resultados_kpis.md   15 KPIs em SQL (sql/02_kpis.sql)
-exportar.py     ──► dados/looker/*.csv     views para o Looker (sql/03_looker.sql)
+```mermaid
+flowchart LR
+  K[(Kaggle / Hugging Face<br>CSV 390 MB)] --> D[baixar_dados.sh]
+  W[(API Banco Mundial)] --> D
+  D --> B[dados/brutos/]
+  B --> T[tratar.py<br>sql/01_schema.sql]
+  T --> DB[(dados/spotify.db<br>SQLite, modelo estrela)]
+  DB --> KP[kpis.py<br>sql/02_kpis.sql] --> R[docs/resultados_kpis.md]
+  DB --> EX[exportar.py<br>sql/03_looker.sql] --> CSV[dados/looker/*.csv] --> L[Looker Studio<br>5 telas]
 ```
 
 ```sh
@@ -37,10 +41,50 @@ Requer Python 3 com pandas. O SQLite já vem com o Python.
 
 ### Modelo de dados
 
-```
-paises (73) ◄── chart_diario (1,72 mi) ──► musicas (20,5 mil) ◄── musica_artista (33 mil) ──► artistas (10,5 mil)
-pais_cod PK     data, pais_cod, posicao PK    musica_id PK          musica_id, artista_id PK      artista_id PK
-+ Banco Mundial  musica_id FK, popularidade   atributos de áudio    ordem (1 = principal)         origem_cod
+```mermaid
+erDiagram
+  paises ||--o{ chart_diario : "tem posições"
+  musicas ||--o{ chart_diario : "aparece em"
+  musicas ||--|{ musica_artista : creditada
+  artistas ||--o{ musica_artista : participa
+  paises {
+    text pais_cod PK "ISO-2 ou GLOBAL (73)"
+    text pais
+    text regiao "Banco Mundial"
+    text renda "Banco Mundial"
+    integer populacao "2023"
+    real internet "fração com internet"
+  }
+  chart_diario {
+    text data PK "1,72 mi linhas"
+    text pais_cod PK,FK
+    integer posicao PK "1 a 50"
+    text musica_id FK
+    integer popularidade
+  }
+  musicas {
+    text musica_id PK "id do Spotify (20,5 mil)"
+    text musica
+    text artista_principal
+    text data_lancamento
+    integer explicita
+    integer colaboracao
+    integer brasileira
+    real duracao_min
+    real dancabilidade
+    real energia
+    real valencia
+  }
+  musica_artista {
+    text musica_id PK,FK "33 mil"
+    integer artista_id PK,FK
+    integer ordem "1 = principal"
+  }
+  artistas {
+    integer artista_id PK "10,5 mil"
+    text artista
+    text origem_cod "ISO-2 ou INT"
+  }
 ```
 
 ### Tratamento (o que a base tinha de errado)
@@ -55,6 +99,19 @@ pais_cod PK     data, pais_cod, posicao PK    musica_id PK          musica_id, a
 | Base não diz a nacionalidade do artista | origem estimada pelo país onde o artista mais acumulou dias no Top 50 (com ≥ 35% dos dias), validada à mão |
 
 A validação da origem mostrou que **rappers e MCs brasileiros como Veigh, WIU, Teto e Marina Sena passam mais dias no Top 50 de Portugal do que no do Brasil**. Por isso há uma regra: quem lidera em Portugal e também entrou no chart brasileiro conta como brasileiro. Anitta, Alok, Pabllo Vittar e o funk "montagem", que viralizou no Cazaquistão e na Arábia Saudita, entram por uma lista revisada à mão (`tratar.py`).
+
+### Estrutura
+
+```
+baixar_dados.sh        baixa o CSV do Spotify e o JSON do Banco Mundial
+tratar.py              limpeza e carga no SQLite
+kpis.py                roda os 15 KPIs e gera docs/resultados_kpis.md
+exportar.py            gera os CSVs do Looker
+sql/                   schema, KPIs e views do Looker
+dados/looker/          CSVs prontos (versionados; os brutos e o .db ficam fora do git)
+design/                fundos das telas (fundos.py gera os PNGs)
+docs/telas/            capturas das 5 telas do dashboard
+```
 
 ## Os 15 KPIs
 
